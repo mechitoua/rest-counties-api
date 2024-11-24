@@ -23,7 +23,11 @@ function CountryDetail() {
           stroke="currentColor"
           className="w-5 h-5"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+          />
         </svg>
         Back
       </button>
@@ -36,14 +40,16 @@ function CountryDetail() {
         />
 
         <div className="py-6 md:py-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold mb-6 md:mb-8">{country.name.common}</h1>
+          <h1 className="text-2xl md:text-3xl font-extrabold mb-6 md:mb-8">
+            {country.name.common}
+          </h1>
 
           <div className="grid md:grid-cols-2 gap-8 md:gap-x-24 mb-8 md:mb-16">
             <div className="space-y-3">
               <p>
                 <span className="font-semibold">Native Name: </span>
                 {Object.values(country.name.nativeName)
-                  .map(name => name.common)
+                  .map((name) => name.common)
                   .join(', ') || country.name.common}
               </p>
               <p>
@@ -72,7 +78,7 @@ function CountryDetail() {
               <p>
                 <span className="font-semibold">Currencies: </span>
                 {Object.values(country.currencies)
-                  .map(currency => currency.name)
+                  .map((currency) => currency.name)
                   .join(', ')}
               </p>
               <p>

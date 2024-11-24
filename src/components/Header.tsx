@@ -24,7 +24,7 @@ function Header({ darkMode, toggleDarkMode }: HeaderProps) {
             stroke="currentColor"
             className="w-4 h-4"
           >
-            {darkMode ? (
+            {!darkMode ? (
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -38,7 +38,7 @@ function Header({ darkMode, toggleDarkMode }: HeaderProps) {
               />
             )}
           </svg>
-          {darkMode ? 'Dark Mode' : 'Light Mode'}
+          {!darkMode ? 'Dark Mode' : 'Light Mode'}
         </button>
       </div>
     </header>

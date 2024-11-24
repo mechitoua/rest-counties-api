@@ -4,7 +4,8 @@ import CountryCard from '@/components/CountryCard';
 import { useCountries } from '@/hooks/useCountries';
 
 function Home() {
-  const { countries, searchTerm, setSearchTerm, selectedRegion, setSelectedRegion } = useCountries();
+  const { countries, searchTerm, setSearchTerm, selectedRegion, setSelectedRegion } =
+    useCountries();
 
   return (
     <div className="container">

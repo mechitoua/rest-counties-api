@@ -28,7 +28,7 @@ function RegionFilter({ selectedRegion, onRegionChange }: RegionFilterProps) {
         onClick={() => setIsOpen(!isOpen)}
         className="w-[200px] py-4 px-6 rounded-md shadow-sm bg-white dark:bg-dark-blue text-very-dark-blue-light 
                  dark:text-white flex items-center justify-between focus:outline-none focus:ring-2 
-                 focus:ring-gray-200 dark:focus:ring-gray-700"
+                 focus:ring-gray-200 dark:focus:ring-gray-700 font-medium"
       >
         <span>{selectedRegion || 'Filter by Region'}</span>
         <svg
@@ -54,7 +54,7 @@ function RegionFilter({ selectedRegion, onRegionChange }: RegionFilterProps) {
                     setIsOpen(false);
                   }}
                   className="w-full px-6 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700
-                           text-very-dark-blue-light dark:text-white"
+                           text-very-dark-blue-light dark:text-white font-medium"
                 >
                   {region}
                 </button>
