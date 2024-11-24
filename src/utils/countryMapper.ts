@@ -1,63 +1,40 @@
-import { Country } from '@/types';
-
-export interface RawCountryData {
-  name: {
-    common: string;
-    official: string;
-    nativeName?: {
-      [key: string]: {
-        common: string;
-        official: string;
-      };
-    };
-  };
-  tld?: string[];
-  topLevelDomain?: string[];
-  cca3?: string;
-  alpha2Code?: string;
-  alpha3Code?: string;
-  callingCodes?: string[];
-  capital?: string | string[];
-  altSpellings?: string[];
-  subregion?: string;
-  region?: string;
-  population: number;
-  borders?: string[];
-  flags: {
-    svg: string;
-    alt?: string;
-  };
-  currencies?: {
-    [key: string]: {
-      name: string;
-      symbol: string;
-    };
-  };
-  languages?: {
-    [key: string]: string;
-  };
-}
+import { Country, RawCountryData } from '@/types/index';
 
 export function mapCountryData(country: RawCountryData): Country {
+  const languages = (country.languages || []).reduce((acc, lang) => {
+    if (lang.iso639_1) {
+      acc[lang.iso639_1] = lang.name;
+    }
+    return acc;
+  }, {} as { [key: string]: string });
+
+  const currencies = (country.currencies || []).reduce((acc, curr) => {
+    acc[curr.code] = {
+      name: curr.name,
+      symbol: curr.symbol,
+    };
+    return acc;
+  }, {} as { [key: string]: { name: string; symbol: string } });
+
+  const nativeName = country.altSpellings?.[1] || country.name;
+
   return {
     name: {
-      common: country.name.common || (typeof country.name === 'string' ? country.name : ''),
-      official: country.name.official || (typeof country.name === 'string' ? country.name : ''),
-      nativeName:
-        country.altSpellings && country.altSpellings.length > 1
-          ? { native: { common: country.altSpellings[1] } }
-          : country.name.nativeName || {},
+      common: country.name,
+      official: country.name,
+      nativeName: {
+        native: {
+          official: nativeName,
+          common: nativeName,
+        },
+      },
     },
-    tld: country.tld || country.topLevelDomain || [],
-    cca3: country.cca3 || country.alpha3Code || '',
+    tld: country.topLevelDomain || [],
+    cca3: country.alpha3Code || '',
     alpha2Code: country.alpha2Code || '',
     alpha3Code: country.alpha3Code || '',
     callingCodes: country.callingCodes || [],
-    capital: Array.isArray(country.capital)
-      ? country.capital
-      : country.capital
-      ? [country.capital]
-      : [],
+    capital: country.capital ? [country.capital] : [],
     altSpellings: country.altSpellings || [],
     subregion: country.subregion || '',
     region: country.region || '',
@@ -65,27 +42,10 @@ export function mapCountryData(country: RawCountryData): Country {
     borders: country.borders || [],
     flags: {
       svg: country.flags.svg || '',
+      png: country.flags.png || '',
       alt: country.flags.alt || '',
     },
-    currencies: country.currencies || {},
-    languages: Array.isArray(country.languages)
-      ? country.languages.reduce(
-          (
-            acc: Record<string, string>,
-            lang: {
-              iso639_1?: string;
-              iso639_2?: string;
-              name: string;
-            }
-          ) => {
-            const langCode = lang.iso639_1 || lang.iso639_2 || '';
-            if (langCode && lang.name) {
-              acc[langCode] = lang.name;
-            }
-            return acc;
-          },
-          {}
-        )
-      : country.languages || {},
+    currencies,
+    languages,
   };
 }
